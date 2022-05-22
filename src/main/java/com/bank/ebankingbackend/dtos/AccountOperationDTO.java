@@ -1,5 +1,6 @@
-package com.bank.ebankingbackend.entities;
+package com.bank.ebankingbackend.dtos;
 
+import com.bank.ebankingbackend.entities.BankAccount;
 import com.bank.ebankingbackend.enums.OperationType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,16 +8,13 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
-@Entity
-@Data @NoArgsConstructor @AllArgsConstructor
-public class AccountOperation {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+
+@Data
+public class AccountOperationDTO {
     private Long id;
     private Date operationDate;
     private double amount;
-    @Enumerated(EnumType.STRING)
     private OperationType type;
-    @ManyToOne
-    private BankAccount bankAccount;
     private  String description;
 }
