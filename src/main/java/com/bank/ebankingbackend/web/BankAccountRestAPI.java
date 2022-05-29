@@ -1,9 +1,7 @@
 package com.bank.ebankingbackend.web;
 
-import com.bank.ebankingbackend.dtos.AccountHistoryDTO;
-import com.bank.ebankingbackend.dtos.AccountOperationDTO;
-import com.bank.ebankingbackend.dtos.BankAccountDTO;
-import com.bank.ebankingbackend.dtos.CustomerDTO;
+import com.bank.ebankingbackend.dtos.*;
+import com.bank.ebankingbackend.entities.AccountOperation;
 import com.bank.ebankingbackend.exceptions.BalanceNotSufficentException;
 import com.bank.ebankingbackend.exceptions.BankAccountNotFoundException;
 import com.bank.ebankingbackend.services.BankAccountService;
@@ -14,6 +12,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin("*")
 public class BankAccountRestAPI {
  private BankAccountService bankAccountService;
 
@@ -39,7 +38,7 @@ public List<BankAccountDTO> listAccounts(){
   return bankAccountService.getAccountHistory(accountId,page,size);
  }
 
- @PostMapping("/accounts/debit/{accountId}")
+/* @PostMapping("/accounts/debit/{accountId}")
  public void saveDebit(@PathVariable String accountId,@RequestBody AccountOperationDTO accountOperationDTO) throws BankAccountNotFoundException, BalanceNotSufficentException {
   bankAccountService.debit(accountId,accountOperationDTO.getAmount(),"DEBIT");
  }
@@ -52,9 +51,28 @@ public List<BankAccountDTO> listAccounts(){
  @PostMapping("/accounts/transfer/{accountIdSource}/{accountIdDestination}")
  public void saveTransfer(@PathVariable String accountIdSource,@PathVariable String accountIdDestination,@RequestBody AccountOperationDTO accountOperationDTO) throws BankAccountNotFoundException, BalanceNotSufficentException {
   bankAccountService.transfer(accountIdSource,accountIdDestination,accountOperationDTO.getAmount());
+ }*/
+
+ @PostMapping("/accounts/debit")
+ public DebitDTO debit(@RequestBody DebitDTO debitDTO) throws BankAccountNotFoundException, BalanceNotSufficentException {
+  bankAccountService.debit(debitDTO.getAccountId(),debitDTO.getAmount(), debitDTO.getDescription());
+  return  debitDTO;
+ }
+ @PostMapping("/accounts/credit")
+ public CreditDTO credit(@RequestBody CreditDTO creditDTO) throws BankAccountNotFoundException, BalanceNotSufficentException {
+  bankAccountService.debit(creditDTO.getAccountId(),creditDTO.getAmount(), creditDTO.getDescription());
+  return  creditDTO;
+ }
+ @PostMapping("/accounts/transfer")
+ public void transfer(@RequestBody TransferRequestDTO transferRequestDTO) throws BankAccountNotFoundException, BalanceNotSufficentException {
+  bankAccountService.transfer(transferRequestDTO.getAccountSource(),
+          transferRequestDTO.getAccountDestination(),
+          transferRequestDTO.getAmount());
  }
 
-
-
+ @GetMapping("/accounts/Customer/{accountId}")
+ public List<BankAccountDTO> getAccountHistory(@PathVariable Long accountId) throws BankAccountNotFoundException {
+  return bankAccountService.getAccountCustomer(accountId);
+ }
 
 }
