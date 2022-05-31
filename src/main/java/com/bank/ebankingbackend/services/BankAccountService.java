@@ -1,10 +1,7 @@
 package com.bank.ebankingbackend.services;
 
 import com.bank.ebankingbackend.dtos.*;
-import com.bank.ebankingbackend.entities.BankAccount;
-import com.bank.ebankingbackend.entities.CurrentAccount;
-import com.bank.ebankingbackend.entities.Customer;
-import com.bank.ebankingbackend.entities.SavingAccount;
+import com.bank.ebankingbackend.entities.*;
 import com.bank.ebankingbackend.exceptions.BalanceNotSufficentException;
 import com.bank.ebankingbackend.exceptions.BankAccountNotFoundException;
 import com.bank.ebankingbackend.exceptions.CustomerNotFoundException;
@@ -36,5 +33,6 @@ public interface BankAccountService {
     List<CustomerDTO> searchCustomers(String keyword);
 
     List<BankAccountDTO> getAccountCustomer(Long accountId);
+
 
 }

@@ -70,8 +70,8 @@ public List<BankAccountDTO> listAccounts(){
           transferRequestDTO.getAmount());
  }
 
- @GetMapping("/accounts/Customer/{accountId}")
- public List<BankAccountDTO> getAccountHistory(@PathVariable Long accountId) throws BankAccountNotFoundException {
+ @GetMapping("/accounts/customer/{accountId}")
+ public List<BankAccountDTO> getAccountCustomer(@PathVariable Long accountId) throws BankAccountNotFoundException {
   return bankAccountService.getAccountCustomer(accountId);
  }
 
